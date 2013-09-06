@@ -4,6 +4,8 @@ A collection of Java bindings
 
 ##  setTimeout
 
+interupt execution after specified time
+
 ````xquery
  import module namespace test = 'org.apb.modules.TestModule';
 declare function local:prime($n){
