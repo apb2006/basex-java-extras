@@ -1,10 +1,11 @@
 # BaseX java Utils
 
-A collection of Java bindings
+Testbed for a collection of Java bindings for BaseX
+## installation
+copy `apbtest.jar` to the basex lib folder. 
+Note: basex.exe on windows does not pickup additional jars use `bin/basexgui.bat`
 
 ##  setTimeout
-
-interupt execution after specified time
 
 ````xquery
  import module namespace test = 'org.apb.modules.TestModule';

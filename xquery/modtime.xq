@@ -1,6 +1,10 @@
-(: run timed tests :)
+(:~  
+ :time queries with timeout 
+ :)
+declare variable $target:=fn:resolve-uri("xmark.xq"); 
+ 
 declare function local:exec($c,$label,$exp,$timeout){
-   let $s:=prof:current-ms()  
+  let $s:=prof:current-ms()  
   let $result:=try{
                let $x:=client:query($c,$exp,map{'TIMEOUT':=$timeout})
                return ()
@@ -9,6 +13,7 @@ declare function local:exec($c,$label,$exp,$timeout){
              }
   return <exec label="{$label}" time="{prof:current-ms()-$s}" result="{$result}"/>
 };
+
 declare function local:timemod($mod,$timeout){
   let $i:=inspect:module($mod)
   let $import:=<text>
@@ -23,4 +28,4 @@ declare function local:timemod($mod,$timeout){
   return local:exec($c,$label,$exp,$timeout)
  };
 
-local:timemod("C:\Users\U8009642\Desktop\xmark\queries\xmark.xq",20000)
+local:timemod($target,20000)
