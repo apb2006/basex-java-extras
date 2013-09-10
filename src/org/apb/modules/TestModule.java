@@ -1,12 +1,25 @@
 package org.apb.modules;
 
+import static org.basex.query.util.Err.FILE_IO;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import net.coobird.thumbnailator.Thumbnailator;
+
 import org.basex.core.Proc;
+import org.basex.io.IOContent;
+import org.basex.io.in.BufferInput;
 import org.basex.query.*;
 import org.basex.query.iter.ValueBuilder;
 import org.basex.query.value.Value;
+import org.basex.query.value.item.B64Stream;
+import org.basex.query.value.item.Int;
 import org.basex.query.value.node.ANode;
 import org.basex.query.value.node.FDoc;
 import org.basex.query.value.node.FElem;
+import org.basex.util.InputInfo;
+import org.basex.util.InputParser;
 
 public class TestModule  extends QueryModule{
 	
@@ -32,10 +45,23 @@ public class TestModule  extends QueryModule{
 		  }
 	 /* stop current execution after timeout ms */
 	 @Requires(Permission.NONE)
-	 public void setTimeout(int timeout){
+	 public void setTimeout(final int timeout){
 		   Proc p=(Proc)context;
 		   p.stopTimeout();
 		   p.startTimeout(timeout);
+	 }
+	 
+	 /* stream test: make a copy */
+	 @Requires(Permission.NONE)
+	 public B64Stream thumb(final B64Stream inputStream,final Int num) throws IOException, QueryException{
+		 BufferInput b= inputStream.input(new InputInfo(new InputParser("hi")) );
+		 int width=(int) num.itr();
+		 int height=width; 
+		 ByteArrayOutputStream os=new ByteArrayOutputStream();
+		 B64Stream os2 =new B64Stream(new IOContent(os.toByteArray()), FILE_IO);
+		 Thumbnailator.createThumbnail(b,os,width,height);
+		 return os2;
+
 	 }
 
 }
