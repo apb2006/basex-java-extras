@@ -1,13 +1,14 @@
 package org.apb.modules;
 
-import static org.basex.query.util.Err.FILE_IO;
+import static org.basex.query.util.Err.IOERR;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+
+
 import net.coobird.thumbnailator.Thumbnailator;
 
-import org.basex.core.Proc;
 import org.basex.io.IOContent;
 import org.basex.io.in.BufferInput;
 import org.basex.query.*;
@@ -44,12 +45,7 @@ public class TestModule  extends QueryModule{
 		    return doc;
 		  }
 	 /* stop current execution after timeout ms */
-	 @Requires(Permission.NONE)
-	 public void setTimeout(final int timeout){
-		   Proc p=(Proc)context;
-		   p.stopTimeout();
-		   p.startTimeout(timeout);
-	 }
+
 	 
 	 /* stream test: make a copy */
 	 @Requires(Permission.NONE)
@@ -58,7 +54,7 @@ public class TestModule  extends QueryModule{
 		 int width=(int) num.itr();
 		 int height=width; 
 		 ByteArrayOutputStream os=new ByteArrayOutputStream();
-		 B64Stream os2 =new B64Stream(new IOContent(os.toByteArray()), FILE_IO);
+		 B64Stream os2 =new B64Stream(new IOContent(os.toByteArray()),IOERR);
 		 Thumbnailator.createThumbnail(b,os,width,height);
 		 return os2;
 
