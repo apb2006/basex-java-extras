@@ -1,6 +1,6 @@
 package org.apb.modules;
 
-import static org.basex.query.util.Err.IOERR;
+import static org.basex.query.QueryError.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 import org.basex.io.IOContent;
 import org.basex.io.in.BufferInput;
 import org.basex.query.*;
-import org.basex.query.iter.ValueBuilder;
+import org.basex.query.value.ValueBuilder;
 import org.basex.query.value.Value;
 import org.basex.query.value.item.B64Stream;
 import org.basex.query.value.item.Int;
@@ -54,7 +54,7 @@ public class TestModule  extends QueryModule{
 		 int width=(int) num.itr();
 		 int height=width; 
 		 ByteArrayOutputStream os=new ByteArrayOutputStream();
-		 B64Stream os2 =new B64Stream(new IOContent(os.toByteArray()),IOERR);
+		 B64Stream os2 =new B64Stream(new IOContent(os.toByteArray()),IOERR_X);
 		 Thumbnailator.createThumbnail(b,os,width,height);
 		 return os2;
 
