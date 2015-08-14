@@ -7,6 +7,10 @@ import java.io.IOException;
 
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.TimeUnit;
+
 import net.coobird.thumbnailator.Thumbnailator;
 
 import org.basex.io.IOContent;
@@ -24,7 +28,7 @@ import org.basex.util.InputParser;
 
 public class TestModule  extends QueryModule{
 	
-	 public String hello(final String world) {
+	 public static String hello(final String world) {
 		    return "Hello " + world;
 		  }
 	 
@@ -38,7 +42,7 @@ public class TestModule  extends QueryModule{
 		  }
 	 
 	 @Requires(Permission.NONE)
-	 public ANode create() {
+	 public static ANode create() {
 		    FDoc doc = new FDoc("http://www.example.com");
 		    FElem elem = new FElem("root").add("attr", "value");
 		    doc.add(elem);
@@ -49,7 +53,7 @@ public class TestModule  extends QueryModule{
 	 
 	 /* stream test: make a copy */
 	 @Requires(Permission.NONE)
-	 public B64Stream thumb(final B64Stream inputStream,final Int num) throws IOException, QueryException{
+	 public static B64Stream thumb(final B64Stream inputStream,final Int num) throws IOException, QueryException{
 		 BufferInput b= inputStream.input(new InputInfo(new InputParser("hi")) );
 		 int width=(int) num.itr();
 		 int height=width; 
@@ -59,5 +63,39 @@ public class TestModule  extends QueryModule{
 		 return os2;
 
 	 }
-
+	 
+	 /* arraylist from iterable 
+	  * http://stackoverflow.com/questions/6416706/easy-way-to-change-iterable-into-collection/6416921#6416921 
+	  */
+	 @Requires(Permission.NONE)
+	 public static <E> Collection<E> makeCollection(Iterable<E> iter) {
+		    Collection<E> list = new ArrayList<E>();
+		    for (E item : iter) {
+		        list.add(item);
+		    }
+		    return list;
+		}
+	 
+	 /* time unit
+	  * http://stackoverflow.com/questions/6416706/easy-way-to-change-iterable-into-collection/6416921#6416921 
+	  */
+	 @Requires(Permission.NONE)
+	 public static  TimeUnit timeUnit(final String unit) { 
+		    return TimeUnit.valueOf(unit);
+		}
+	 /* runnable for query
+	  */
+	 @Requires(Permission.ADMIN)
+	 public static Runnable  runnable(final String xquery){
+		 Runnable runnabledelayedTask = new Runnable()
+		 	        {
+		 	            @Override
+		 	            public void run()
+		 	            {
+		 	                 System.out.println(Thread.currentThread().getName()+" is Running Delayed Task");
+		 	            }
+		 	        };
+		 return runnabledelayedTask;	        
+		}
+	 
 }

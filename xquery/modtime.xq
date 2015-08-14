@@ -2,7 +2,7 @@
 declare function local:exec($c,$label,$exp,$timeout){
    let $s:=prof:current-ms()  
   let $result:=try{
-               let $x:=client:query($c,$exp,map{'TIMEOUT':=$timeout})
+               let $x:=client:query($c,$exp,map{'TIMEOUT': $timeout})
                return ()
              }catch * {
                $err:description
