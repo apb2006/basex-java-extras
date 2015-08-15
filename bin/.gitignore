@@ -4,3 +4,5 @@
 .classpath
 /makejar.jardesc
 /org/
+/dist/
+/xquery/

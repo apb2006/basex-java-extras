@@ -11,7 +11,6 @@ package org.apb.modules;
 import java.util.concurrent.TimeUnit;
 
 import org.basex.core.Context;
-import org.basex.query.QueryException;
 import org.basex.query.QueryModule;
 import org.basex.query.QueryProcessor;
 import org.basex.query.value.Value;
@@ -31,6 +30,7 @@ public class Async extends QueryModule {
 	@Requires(Permission.ADMIN)
 	public static Runnable runnable(final String xquery) {
 		Runnable runnabledelayedTask = new Runnable() {
+			@SuppressWarnings("resource")
 			@Override
 			public void run() {
 
@@ -45,6 +45,7 @@ public class Async extends QueryModule {
 						Value result = proc.value();
 
 						// Print result as string.
+						System.out.println("result----------------");
 						System.out.println(result);
 					
 				}
