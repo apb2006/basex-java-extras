@@ -8,6 +8,7 @@ package org.apb.modules;
  * @since aug 2015
  * 
  */
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import org.basex.core.Context;
@@ -28,6 +29,14 @@ public class Async extends QueryModule {
 	 * runnable for query
 	 */
 	@Requires(Permission.ADMIN)
+	public static FutureTask<Value> futureTask(final String xquery) {
+		return new FutureTask<Value>(new CallableQuery(xquery));
+	}
+
+	/*
+	 * runnable for query
+	 */
+	@Requires(Permission.ADMIN)
 	public static Runnable runnable(final String xquery) {
 		Runnable runnabledelayedTask = new Runnable() {
 			@SuppressWarnings("resource")
@@ -40,20 +49,18 @@ public class Async extends QueryModule {
 				try {
 					Context context = new Context();
 					// Create a query processor
-					QueryProcessor proc = new QueryProcessor(xquery, context); 
-						// Execute the query
-						Value result = proc.value();
+					QueryProcessor proc = new QueryProcessor(xquery, context);
+					// Execute the query
+					Value result = proc.value();
 
-						// Print result as string.
-						System.out.println("result----------------");
-						System.out.println(result);
-					
+					// Print result as string.
+					System.out.println("result----------------");
+					System.out.println(result);
+
+				} catch (Exception ex) {
+					System.out.println(ex.getMessage());
 				}
-					catch ( Exception ex) {
-						System.out.println(ex.getMessage());
-				}	
 			}
-
 
 		};
 		return runnabledelayedTask;
