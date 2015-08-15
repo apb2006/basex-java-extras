@@ -77,7 +77,6 @@ public class TestModule  extends QueryModule{
 		}
 	 
 	 /* time unit
-	  * http://stackoverflow.com/questions/6416706/easy-way-to-change-iterable-into-collection/6416921#6416921 
 	  */
 	 @Requires(Permission.NONE)
 	 public static  TimeUnit timeUnit(final String unit) { 
@@ -92,7 +91,8 @@ public class TestModule  extends QueryModule{
 		 	            @Override
 		 	            public void run()
 		 	            {
-		 	                 System.out.println(Thread.currentThread().getName()+" is Running Delayed Task");
+		 	                 
+		 	            	System.out.println(Thread.currentThread().getName()+" is Running Delayed Task");
 		 	            }
 		 	        };
 		 return runnabledelayedTask;	        
