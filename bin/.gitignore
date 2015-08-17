@@ -2,7 +2,7 @@
 /.settings
 .project
 .classpath
-/makejar.jardesc
+/.gitignore
+/LICENSE
 /org/
 /dist/
-/xquery/
