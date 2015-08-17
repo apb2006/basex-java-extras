@@ -31,7 +31,7 @@ public class Async extends QueryModule {
 	 */
 	@Requires(Permission.ADMIN)
 	public static FutureTask<Value> futureTask(final String xquery) {
-		return new FutureTask<Value>(new CallableQuery(xquery,context));
+		return new FutureTask<Value>(new CallableQuery(context,xquery));
 	}
 
 	
