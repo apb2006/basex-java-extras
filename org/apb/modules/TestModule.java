@@ -4,7 +4,9 @@ import static org.basex.query.QueryError.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +41,13 @@ public class TestModule extends QueryModule {
 		return vb.value();
 	}
 
+	public static Value filewalk(final String path) throws IOException {
+		Path startingDir = Paths.get(path);
+		FileWalk pf = new FileWalk();
+		Files.walkFileTree(startingDir, pf);
+		return pf.result();
+	}
+	
 	@Requires(Permission.NONE)
 	public static ANode create() {
 		FDoc doc = new FDoc("http://www.example.com");
@@ -77,28 +86,6 @@ public class TestModule extends QueryModule {
 		return list;
 	}
 
-	/*
-	 * time unit
-	 */
-	@Requires(Permission.NONE)
-	public static TimeUnit timeUnit(final String unit) {
-		return TimeUnit.valueOf(unit);
-	}
-
-	/*
-	 * runnable for query
-	 */
-	@Requires(Permission.ADMIN)
-	public static Runnable runnable(final String xquery) {
-		Runnable runnabledelayedTask = new Runnable() {
-			@Override
-			public void run() {
-
-				System.out.println(Thread.currentThread().getName()
-						+ " is Running Delayed Task");
-			}
-		};
-		return runnabledelayedTask;
-	}
+	
 
 }

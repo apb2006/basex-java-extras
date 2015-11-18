@@ -2,8 +2,4 @@
 /.settings
 .project
 .classpath
-/.gitignore
-/LICENSE
 /org/
-/dist/
-/xquery/
