@@ -2,14 +2,24 @@ package org.apb.modules;
 
 import static org.basex.query.QueryError.*;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -71,7 +81,31 @@ public class TestModule extends QueryModule {
 		return os2;
 
 	}
+	
+	public static InputStream fileInputStream(String file) throws IOException{
+		return (InputStream) new FileInputStream(file);
+	}
+	// @return image format
+	// http://stackoverflow.com/questions/11425521/how-to-get-the-formatexjpen-png-gif-of-image-file-bufferedimage-in-java/31513596#31513596	
+	public static String imageFormatName(InputStream input) throws IOException {
+	    ImageInputStream stream = ImageIO.createImageInputStream(input);
 
+	    Iterator<ImageReader> iter = ImageIO.getImageReaders(stream);
+	    if (!iter.hasNext()) {
+	        return null;
+	    }
+	    ImageReader reader = (ImageReader) iter.next();
+	    ImageReadParam param = reader.getDefaultReadParam();
+	    reader.setInput(stream, true, true);
+	    BufferedImage bi;
+	    try {
+	        bi = reader.read(0, param);
+	        return reader.getFormatName();
+	    } finally {
+	        reader.dispose();
+	        stream.close();
+	    }
+	}
 	/*
 	 * arraylist from iterable
 	 * http://stackoverflow.com/questions/6416706/easy-way

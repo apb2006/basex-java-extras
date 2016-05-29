@@ -23,6 +23,8 @@ Returns (<root1/>,<root2/>)
 ### create
 Returns element
 
+### walkfile(path)
+`Q{java:org.apb.modules.TestModule}filewalk('C:\Users\andy\workspace\qd-cmpx')`
 ### thumb
 returns thumbnail
 
