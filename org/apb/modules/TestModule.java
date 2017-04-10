@@ -2,7 +2,6 @@ package org.apb.modules;
 
 import static org.basex.query.QueryError.IOERR_X;
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
@@ -25,12 +23,8 @@ import org.basex.query.QueryException;
 import org.basex.query.QueryModule;
 import org.basex.query.value.Value;
 import org.basex.query.value.ValueBuilder;
-import org.basex.query.value.item.ANum;
 import org.basex.query.value.item.B64Stream;
 import org.basex.query.value.item.Int;
-import org.basex.query.value.item.Item;
-import org.basex.query.value.item.Str;
-import org.basex.query.value.map.Map;
 import org.basex.query.value.node.ANode;
 import org.basex.query.value.node.FDoc;
 import org.basex.query.value.node.FElem;
@@ -69,29 +63,6 @@ public class TestModule extends QueryModule {
         return doc;
     }
 
-    /*
-     * test handling Map as argument 
-     * if map has key depth then
-     *       return value of key 
-     * else
-     * return size of map.
-     */
-    public static int mapinfo(Map m) throws QueryException {
-        Item key = Str.get("depth");
-        InputInfo ii = new InputInfo("what?", 0, 0);
-        Value v = m.get(key, ii);
-        if (v.isEmpty()) {
-            return m.mapSize();
-        }
-        Item item = v.itemAt(0);
-        if (item instanceof ANum) {
-            return (int) ((ANum) item).itr(null);
-        } else {
-            return -1;
-        }
-
-    }
-    /* stop current execution after timeout ms */
 
     /* stream test: make a copy */
     @Requires(Permission.NONE)
@@ -120,11 +91,9 @@ public class TestModule extends QueryModule {
             return null;
         }
         ImageReader reader = (ImageReader) iter.next();
-        ImageReadParam param = reader.getDefaultReadParam();
         reader.setInput(stream, true, true);
-        BufferedImage bi;
+
         try {
-            bi = reader.read(0, param);
             return reader.getFormatName();
         } finally {
             reader.dispose();

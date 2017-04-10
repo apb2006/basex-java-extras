@@ -38,4 +38,4 @@ let $a:=apb:makeCollection($items)
 ````
 ## XQueryMaps
 sample map usage.
-
+Q{java:org.apb.modules.XQueryMaps}mapinfo(map{"depth":12})
