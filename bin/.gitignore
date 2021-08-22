@@ -2,5 +2,6 @@
 /.settings
 .project
 .classpath
-/org/
 /dist/
+/org/
+/jx-extras-0.9.6.6.jar
